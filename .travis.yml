@@ -1,0 +1,29 @@
+sudo: false
+language: php
+php:
+- 5.6
+- 7.0
+branches:
+  only:
+  - master
+env:
+- COMPOSER_DISABLE_XDEBUG_WARN=1
+cache:
+  directories:
+  - "$TRAVIS_BUILD_DIR/vendor"
+install:
+- cp ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini ~/.phpenv/versions/$(phpenv
+  version-name)/etc/conf.d/xdebug.ini.bak
+- composer install --prefer-dist --no-interaction
+script:
+- cp ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini.bak ~/.phpenv/versions/$(phpenv
+  version-name)/etc/conf.d/xdebug.ini
+- vendor/bin/phpunit
+- vendor/bin/php-coverage-checker build/coverage-clover.xml 100
+- vendor/bin/phpcs --standard=PSR2 ./src ./test
+- wget https://scrutinizer-ci.com/ocular.phar
+- php ocular.phar code-coverage:upload --format=php-clover build/coverage-clover.xml
+
+notifications:
+  slack:
+    secure: HqrjxxrIu+Fp5gXiDrxmloNERFDzHmxRlMpNaJBeitnnk0pdBMZ61iLLJAqOTZOTh9yGH6J79ReFgjweIzPUKgSqCrBMI9VRgbAdgC8IXZSc8xlpuqeoBMv1SKf7BBFo9eg6R0oVMlxVZqrl2oqcs7Je743Wlfs18eppYUm/TjOEQ1JjiktS65ZbeSO3GSfF6xqKB+PRCAKjU6MxNllxlhVcjXVdEC4JRLgbiMyueAl6XigS7ThmainBz22hIm0cV5AhOauL4PBTDuJq6UI2o6nOmIjaAntGeDogp+XIEGJI7L350CcBgMWvvjeEBMWWv5YDOOBYFVJRGIQzzP8w7nOb3C+XYvqkK2CvcWlk6ZXrYce9OAONwBzF/zlGdBul97bfCXq35/64MrNgoirrwqTe7rs3zNWAqLm2nqPFCqqySICJPj+KZKtg1HHMF0oJghjyO2+7qtFUw8m03vsb8fV1vwHnQHMf40PxoOISKahAQqEzmDeommZWoTIj40hEWQfp9Qsdo2OkTgDEPWeL3gcMwlb9qkqEE3Z3fkKqRSGi43pbwZMxU2ZDwEC6xQ1PLKKak/lSPKHy585GmsdDQdU2E9cHjMRiul2zPlFjnUlclhhAIf/eruHeuL6UWgtL/0WdRxsSTrTLWg/C5uUtZtI/taHv42EXs/QN1NbO0Fg=
