@@ -81,7 +81,7 @@ class ConfigMerger
      */
     public function getConfigYaml()
     {
-        return Yaml::dump($this->config, self::YAML_INLINE, self::YAML_INLINE, self::YAML_EXCEPTION);
+        return Yaml::dump($this->config, self::YAML_INLINE, self::YAML_INDENT, self::YAML_EXCEPTION);
     }
 
     /**
