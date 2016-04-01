@@ -1,4 +1,15 @@
 {
+    "name": "czeeb/config-merger",
+    "description": "Merge configs",
+    "type": "library",
+    "homepage": "https://github.com/czeeb/config-merger",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "Chris Zeeb",
+            "email": "chris.zeeb@gmail.com"
+        }
+    ],
     "require": {
         "zendframework/zend-stdlib": "^3.0",
         "ext-json": "*",
